@@ -21,13 +21,16 @@ const data = lines.slice(1).map(line => {
 });
 
 const insert = db.prepare(`
-  INSERT OR REPLACE INTO brand (name, favored, unfavored)
-  VALUES (@name, @favored, @unfavored)
+  INSERT OR REPLACE INTO brand (name, favored, unfavored, gear)
+  VALUES (@name, @favored, @unfavored, @gear)
 `);
+
+const getGearByBrand = db.prepare('SELECT name FROM gear WHERE LOWER(brand) = LOWER(?)');
 
 const insertMany = db.transaction((rows) => {
   for (const row of rows) {
-    insert.run(row);
+    const gearItems = getGearByBrand.all(row.name).map(g => g.name);
+    insert.run({ ...row, gear: JSON.stringify(gearItems) });
   }
 });
 

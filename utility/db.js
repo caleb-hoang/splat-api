@@ -41,7 +41,8 @@ db.exec(`
   CREATE TABLE IF NOT EXISTS brand (
     name TEXT NOT NULL PRIMARY KEY,
     favored TEXT,
-    unfavored TEXT
+    unfavored TEXT,
+    gear TEXT NOT NULL
   )
 `);
 
