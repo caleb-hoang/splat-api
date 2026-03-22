@@ -5,11 +5,15 @@ const dbPath = path.join(__dirname, '..', 'database', 'database.sqlite');
 const db = new Database(dbPath);
 
 db.exec(`
-  CREATE TABLE IF NOT EXISTS weapon (
+  CREATE TABLE IF NOT EXISTS kit (
     name TEXT NOT NULL PRIMARY KEY,
-    class TEXT NOT NULL,
+    main TEXT NOT NULL,
+    sub TEXT NOT NULL,
+    special TEXT NOT NULL,
+    special_points INTEGER NOT NULL,
     level INTEGER NOT NULL,
-    brand TEXT CHECK (brand IN ('splat', 'deco', 'd', 'neo', 'noveau', 'custom', 'nintendo', 'sheldons_picks', 'foil', 'sorella', 'grizzco', 'tentatek', 'kensa', 'barazushi', 'emberz'))
+    id INTEGER NOT NULL,
+    brand TEXT
   )
 `);
 
