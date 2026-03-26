@@ -14,4 +14,13 @@ db.exec(`
   )
 `);
 
+db.exec(`
+  CREATE TABLE IF NOT EXISTS ability (
+    name TEXT PRIMARY KEY,
+    "internal-name" TEXT NOT NULL,
+    "gives-other" TEXT,
+    "slot-restriction" TEXT
+  )
+`);
+
 module.exports = db;

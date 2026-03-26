@@ -21,6 +21,7 @@ const usen = JSON.parse(fs.readFileSync(usenPath, 'utf8'));
 const brandTraits = JSON.parse(fs.readFileSync(brandTraitsPath, 'utf8'));
 
 const brandNames = usen['CommonMsg/Gear/GearBrandName'];
+const gearPowerNames = usen['CommonMsg/Gear/GearPowerName'];
 const traits = brandTraits.Traits;
 
 const insert = db.prepare(`
@@ -32,8 +33,8 @@ db.exec('DELETE FROM brand');
 
 for (const [id, name] of Object.entries(brandNames)) {
   const trait = traits[id] || traits['None'];
-  const favored = trait?.UsualGearSkill || null;
-  const unfavored = trait?.UnusualGearSkill || null;
+  const favored = gearPowerNames[trait?.UsualGearSkill] || null;
+  const unfavored = gearPowerNames[trait?.UnusualGearSkill] || null;
   insert.run(id, name, favored, unfavored);
 }
 
