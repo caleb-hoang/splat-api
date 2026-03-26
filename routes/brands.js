@@ -13,7 +13,7 @@ router.get('/brands', (req, res) => {
 
 router.get('/brands/:name', (req, res) => {
     const { name } = req.params;
-    const brand = db.prepare('SELECT * FROM brand WHERE LOWER(name) = LOWER(?)').get(name);
+    const brand = db.prepare('SELECT * FROM brand WHERE LOWER(name) = LOWER(?) OR LOWER(id) = LOWER(?)').get(name, name);
     
     if (!brand) {
         return res.status(404).json({ error: 'Brand not found' });
