@@ -18,7 +18,8 @@ db.exec(`
   CREATE TABLE IF NOT EXISTS ability (
     name TEXT PRIMARY KEY,
     "internal-name" TEXT NOT NULL,
-    "gives-other" TEXT,
+    description TEXT NOT NULL,
+    "crafted-with" TEXT,
     "slot-restriction" TEXT
   )
 `);

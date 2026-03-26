@@ -21,11 +21,12 @@ const usen = JSON.parse(fs.readFileSync(usenPath, 'utf8'));
 const gearSkillTraits = JSON.parse(fs.readFileSync(gearSkillTraitsPath, 'utf8'));
 
 const gearPowerNames = usen['CommonMsg/Gear/GearPowerName'];
+const gearPowerExps = usen['CommonMsg/Gear/GearPowerExp'];
 const traits = gearSkillTraits.Traits;
 
 const insert = db.prepare(`
-  INSERT OR REPLACE INTO ability (name, "internal-name", "gives-other", "slot-restriction")
-  VALUES (?, ?, ?, ?)
+  INSERT OR REPLACE INTO ability (name, "internal-name", description, "crafted-with", "slot-restriction")
+  VALUES (?, ?, ?, ?, ?)
 `);
 
 db.exec('DELETE FROM ability');
@@ -34,13 +35,16 @@ for (const [internalName, name] of Object.entries(gearPowerNames)) {
   if (internalName === 'None') continue;
   
   const trait = traits[internalName];
-  let givesOther = null;
+  let craftedWith;
   if (trait?.ConsistsOfChip?.length > 0) {
-    givesOther = JSON.stringify(trait.ConsistsOfChip.map(internal => gearPowerNames[internal] || internal));
+    craftedWith = JSON.stringify(trait.ConsistsOfChip.map(internal => gearPowerNames[internal] || internal));
+  } else {
+    craftedWith = JSON.stringify([name]);
   }
   const slotRestriction = trait?.KindLimit || null;
+  const description = (gearPowerExps[internalName] || '').replace(/\n/g, ' ');
   
-  insert.run(name, internalName, givesOther, slotRestriction);
+  insert.run(name, internalName, description, craftedWith, slotRestriction);
 }
 
 console.log('Ability data imported successfully');

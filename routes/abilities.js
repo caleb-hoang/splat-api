@@ -9,7 +9,7 @@ const db = new Database(dbPath);
 router.get('/abilities', (req, res) => {
     const abilities = db.prepare('SELECT * FROM ability').all().map(a => ({
         ...a,
-        'gives-other': a['gives-other'] ? JSON.parse(a['gives-other']) : null
+        'crafted-with': a['crafted-with'] ? JSON.parse(a['crafted-with']) : null
     }));
     res.json(abilities);
 });
@@ -24,8 +24,8 @@ router.get('/abilities/:name', (req, res) => {
         return res.status(404).json({ error: 'Ability not found' });
     }
     
-    if (ability['gives-other']) {
-        ability['gives-other'] = JSON.parse(ability['gives-other']);
+    if (ability['crafted-with']) {
+        ability['crafted-with'] = JSON.parse(ability['crafted-with']);
     }
     
     res.json(ability);
