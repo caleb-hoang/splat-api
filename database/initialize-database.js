@@ -24,4 +24,19 @@ db.exec(`
   )
 `);
 
+db.exec(`
+  CREATE TABLE IF NOT EXISTS kit (
+    id INTEGER NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    "internal-name" TEXT NOT NULL,
+    sub TEXT,
+    special TEXT,
+    unlock_rank INTEGER,
+    matchmaking_range REAL,
+    special_points INTEGER,
+    season INTEGER,
+    parameters TEXT
+  )
+`);
+
 module.exports = db;
