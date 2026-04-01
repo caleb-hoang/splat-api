@@ -1,0 +1,557 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Splat API",
+    "description": "API for Splatoon 3 game data including weapons, clothing, and abilities",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api",
+      "description": "Local development server"
+    }
+  ],
+  "paths": {
+    "/kits": {
+      "get": {
+        "summary": "Get all weapon kits (paginated)",
+        "description": "Returns a paginated list of weapon kits. Results are sorted by id.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number (default: 1)",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated list of weapon kits",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": { "type": "integer", "description": "Total number of kits" },
+                    "page": { "type": "integer", "description": "Current page number" },
+                    "size": { "type": "integer", "description": "Items per page" },
+                    "pages": { "type": "integer", "description": "Total number of pages" },
+                    "results": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Kit" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/kits/{kit}": {
+      "get": {
+        "summary": "Get a single weapon kit",
+        "description": "Search for a kit by id or name (case-insensitive, spaces/dashes interchangeable)",
+        "parameters": [
+          {
+            "name": "kit",
+            "in": "path",
+            "required": true,
+            "description": "Kit id or name (e.g., 0, sploosh-o-matic, Shooter_Short_00)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Kit object",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Kit" }
+              }
+            }
+          },
+          "404": {
+            "description": "Kit not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clothes": {
+      "get": {
+        "summary": "Get all clothing items (paginated)",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number (default: 1)",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated list of clothing items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "size": { "type": "integer" },
+                    "pages": { "type": "integer" },
+                    "results": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Clothing" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clothes/{item}": {
+      "get": {
+        "summary": "Get a single clothing item",
+        "parameters": [
+          {
+            "name": "item",
+            "in": "path",
+            "required": true,
+            "description": "Clothing item id or name",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Clothing item object",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Clothing" }
+              }
+            }
+          },
+          "404": {
+            "description": "Clothing item not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/head": {
+      "get": {
+        "summary": "Get all head gear (paginated)",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number (default: 1)",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated list of head gear",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "size": { "type": "integer" },
+                    "pages": { "type": "integer" },
+                    "results": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Gear" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/head/{item}": {
+      "get": {
+        "summary": "Get a single head gear item",
+        "parameters": [
+          {
+            "name": "item",
+            "in": "path",
+            "required": true,
+            "description": "Head gear id or name",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Head gear object",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Gear" }
+              }
+            }
+          },
+          "404": {
+            "description": "Head gear not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shoes": {
+      "get": {
+        "summary": "Get all shoes (paginated)",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number (default: 1)",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated list of shoes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": { "type": "integer" },
+                    "page": { "type": "integer" },
+                    "size": { "type": "integer" },
+                    "pages": { "type": "integer" },
+                    "results": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Gear" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shoes/{item}": {
+      "get": {
+        "summary": "Get a single shoes item",
+        "parameters": [
+          {
+            "name": "item",
+            "in": "path",
+            "required": true,
+            "description": "Shoes id or name",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Shoes object",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Gear" }
+              }
+            }
+          },
+          "404": {
+            "description": "Shoes not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/abilities": {
+      "get": {
+        "summary": "Get all abilities",
+        "responses": {
+          "200": {
+            "description": "List of all abilities",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Ability" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/abilities/{name}": {
+      "get": {
+        "summary": "Get a single ability",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Ability name or internal-name (spaces/dashes interchangeable)",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ability object",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Ability" }
+              }
+            }
+          },
+          "404": {
+            "description": "Ability not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/brands": {
+      "get": {
+        "summary": "Get all brands",
+        "responses": {
+          "200": {
+            "description": "List of all brands",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Brand" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/brands/{id}": {
+      "get": {
+        "summary": "Get a single brand",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Brand id (e.g., B00, B01)",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Brand object",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Brand" }
+              }
+            }
+          },
+          "404": {
+            "description": "Brand not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Kit": {
+        "type": "object",
+        "description": "Weapon kit (main weapon + sub + special)",
+        "properties": {
+          "id": { "type": "integer", "description": "Unique kit identifier" },
+          "name": { "type": "string", "description": "In-game weapon name" },
+          "internal-name": { "type": "string", "description": "Internal identifier from data sheet" },
+          "sub": { "type": "string", "description": "Sub-weapon name", "nullable": true },
+          "special": { "type": "string", "description": "Special weapon name", "nullable": true },
+          "unlock_rank": { "type": "integer", "description": "Player level required to unlock (-1 for default)" },
+          "matchmaking_range": { "type": "number", "description": "Matchmaking range value" },
+          "special_points": { "type": "integer", "description": "Special gauge cost" },
+          "season": { "type": "integer", "description": "Season introduced" },
+          "parameters": {
+            "type": "object",
+            "description": "Weapon statistics",
+            "properties": {
+              "Range": { "type": "number" },
+              "Damage": { "type": "number" },
+              "Fire Rate": { "type": "number" },
+              "Impact": { "type": "number" },
+              "Charge Speed": { "type": "number" },
+              "Mobility": { "type": "number" },
+              "Ink Speed": { "type": "number" },
+              "Handling": { "type": "number" },
+              "Durability": { "type": "number" }
+            }
+          }
+        }
+      },
+      "Clothing": {
+        "type": "object",
+        "description": "Clothing gear item",
+        "properties": {
+          "id": { "type": "integer" },
+          "name": { "type": "string" },
+          "brand": { "type": "string" },
+          "ability": { "type": "string", "nullable": true },
+          "price": { "type": "integer" },
+          "rarity": { "type": "integer" },
+          "obtained-from": { "type": "string" },
+          "scale-price": {
+            "type": "object",
+            "nullable": true,
+            "properties": {
+              "Bronze": { "type": "integer" },
+              "Silver": { "type": "integer" },
+              "Gold": { "type": "integer" }
+            }
+          },
+          "call-sign": { "type": "string", "nullable": true },
+          "call-sign-priority": { "type": "integer" },
+          "season": { "type": "integer" }
+        }
+      },
+      "Gear": {
+        "type": "object",
+        "description": "Head or shoes gear item",
+        "properties": {
+          "id": { "type": "integer" },
+          "name": { "type": "string" },
+          "brand": { "type": "string" },
+          "ability": { "type": "string", "nullable": true },
+          "price": { "type": "integer" },
+          "rarity": { "type": "integer" },
+          "obtained-from": { "type": "string" },
+          "scale-price": {
+            "type": "object",
+            "nullable": true,
+            "properties": {
+              "Bronze": { "type": "integer" },
+              "Silver": { "type": "integer" },
+              "Gold": { "type": "integer" }
+            }
+          },
+          "call-sign": { "type": "string", "nullable": true },
+          "call-sign-priority": { "type": "integer" },
+          "season": { "type": "integer" }
+        }
+      },
+      "Ability": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string", "description": "Display name" },
+          "internal-name": { "type": "string", "description": "Internal identifier" },
+          "description": { "type": "string", "description": "Ability description" },
+          "crafted-with": {
+            "type": "array",
+            "description": "List of ability chunks required to craft",
+            "items": { "type": "string" },
+            "nullable": true
+          },
+          "slot-restriction": {
+            "type": "string",
+            "description": "Which ability slots this can appear on",
+            "nullable": true
+          }
+        }
+      },
+      "Brand": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "description": "Brand identifier (e.g., B00)" },
+          "name": { "type": "string", "description": "Brand name" },
+          "favored": {
+            "type": "array",
+            "description": "Abilities this brand favors",
+            "items": { "type": "string" },
+            "nullable": true
+          },
+          "unfavored": {
+            "type": "array",
+            "description": "Abilities this brand doesn't favor",
+            "items": { "type": "string" },
+            "nullable": true
+          },
+          "image": {
+            "type": "string",
+            "description": "URL to brand image",
+            "nullable": true
+          }
+        }
+      }
+    }
+  }
+}

@@ -17,4 +17,8 @@ Utilizes data mined and sourced from [leanny.github.io](https://leanny.github.io
 
 ### Abilities
 - `GET /api/abilities` - Returns all abilities
-- `GET /api/abilities/:name` - Returns a specific ability by name or internal identifier
+- `GET /api/abilities/:name` - Returns a specific ability by name or internal name
+
+### Kits
+- `GET /api/kits?page=x` - Returns all kits in the game, in pages of 20
+- `GET /api/kits/:kit` - Returns a specific ability by name, internal ID, or internal name

@@ -39,4 +39,50 @@ db.exec(`
   )
 `);
 
+db.exec(`
+  CREATE TABLE IF NOT EXISTS clothes (
+    id INTEGER NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    brand TEXT,
+    ability TEXT,
+    price INTEGER,
+    rarity INTEGER,
+    "obtained-from" TEXT,
+    "scale-price" TEXT,
+    "call-sign" TEXT,
+    "call-sign-priority" INTEGER,
+    season INTEGER
+  )
+`);
+
+db.exec(`
+  CREATE TABLE IF NOT EXISTS head (
+    id INTEGER NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    brand TEXT,
+    ability TEXT,
+    price INTEGER,
+    rarity INTEGER,
+    "obtained-from" TEXT,
+    "scale-price" TEXT,
+    "call-sign" TEXT,
+    "call-sign-priority" INTEGER,
+    season INTEGER
+  )
+`);
+
+db.exec(`
+  CREATE TABLE IF NOT EXISTS shoes (
+    id INTEGER NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    brand TEXT,
+    ability TEXT,
+    price INTEGER,
+    rarity INTEGER,
+    "obtained-from" TEXT,
+    "scale-price" TEXT,
+    season INTEGER
+  )
+`);
+
 module.exports = db;
